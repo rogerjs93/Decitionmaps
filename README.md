@@ -1,12 +1,26 @@
-# React + Vite
+# Decitionmaps
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application for creating and sharing conceptual maps and decision trees. Built with React and Vite.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project provides an interactive platform for creating, viewing, and sharing various types of conceptual maps, including:
+- Decision Trees
+- Flowcharts
+- Mind Maps
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Vite
+- Mermaid.js for diagram rendering
+- GitHub Pages for deployment
+
+## Development Setup
+
+This project was bootstrapped with Vite and uses React. To get started:
+
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Run the development server with `npm run dev`
+4. Build for production with `npm run build`
