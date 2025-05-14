@@ -5,20 +5,28 @@
     <link rel="icon" type="image/svg+xml" href="/Decitionmaps/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Conceptual Maps</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js"></script>
-    <script>
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: 'default',
-        securityLevel: 'loose',
-        fontFamily: 'sans-serif'
-      });
-    </script>
-    <script type="module" crossorigin src="/Decitionmaps/assets/index-BRWt3Sut.js"></script>
+    <script type="module" crossorigin src="/Decitionmaps/assets/index-DpyPwbYM.js"></script>
     <link rel="modulepreload" crossorigin href="/Decitionmaps/assets/vendor-liIMdADX.js">
-    <link rel="stylesheet" crossorigin href="/Decitionmaps/assets/index-B_6i_8fq.css">
+    <link rel="stylesheet" crossorigin href="/Decitionmaps/assets/index-f5WHUq9h.css">
   </head>
   <body>
     <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.0/dist/mermaid.min.js"></script>
+    <script>
+      // Initialize mermaid after it loads
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.mermaid) {
+          window.mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+              htmlLabels: true,
+              curve: 'basis'
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
