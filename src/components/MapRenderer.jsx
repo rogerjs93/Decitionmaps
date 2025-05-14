@@ -1,53 +1,57 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mermaid from 'mermaid';
 import './MapRenderer.css';
 
+// Initialize mermaid once with default configuration
+if (typeof window !== 'undefined') {
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'default',
+    securityLevel: 'loose',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+    },
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+  });
+}
+
 const MapRenderer = ({ diagram }) => {
   const containerRef = useRef(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!diagram) {
-      console.warn('No diagram data provided to MapRenderer.');
-      return;
-    }
-
     const renderDiagram = async () => {
+      if (!diagram || !containerRef.current) return;
+
       try {
-        // Configure mermaid with safe defaults
-        mermaid.initialize({
-          startOnLoad: false,
-          securityLevel: 'loose',
-          theme: 'default'
-        });
+        const uniqueId = `mermaid-${Math.random().toString(36).slice(2)}`;
+        containerRef.current.innerHTML = '';
+        containerRef.current.id = uniqueId;
 
-        // Generate unique ID for this diagram
-        const uniqueId = `mermaid-${Math.random().toString(36).substring(2)}`;
+        const element = document.createElement('div');
+        element.innerHTML = diagram;
+        containerRef.current.appendChild(element);
 
-        // Create a temporary container for mermaid parsing
-        const tempContainer = document.createElement('div');
-        tempContainer.style.display = 'none';
-        document.body.appendChild(tempContainer);
-
-        // Generate SVG
+        await mermaid.parse(diagram);
         const { svg } = await mermaid.render(uniqueId, diagram);
-
-        // Clean up temp container
-        document.body.removeChild(tempContainer);
-
-        // Update the visible container with SVG
+        
         if (containerRef.current) {
           containerRef.current.innerHTML = svg;
         }
-      } catch (error) {
-        console.error('Error rendering Mermaid diagram:', error);
+        setError(null);
+      } catch (err) {
+        console.error('Error rendering diagram:', err);
+        setError(err.message || 'Failed to render diagram');
         if (containerRef.current) {
           containerRef.current.innerHTML = `
-            <div style="color: red; padding: 20px; text-align: left;">
-              <p>Failed to render diagram. Error details:</p>
-              <pre style="background: #f8f8f8; padding: 10px; border-radius: 4px;">
-                ${error.message || 'Unknown error'}
-              </pre>
-            </div>`;
+            <div class="error-message">
+              <p>Failed to render diagram</p>
+              <pre>${err.message || 'Unknown error'}</pre>
+              <p>Diagram source:</p>
+              <pre>${diagram}</pre>
+            </div>
+          `;
         }
       }
     };
@@ -55,7 +59,19 @@ const MapRenderer = ({ diagram }) => {
     renderDiagram();
   }, [diagram]);
 
-  return <div ref={containerRef} className="map-renderer"></div>;
+  return (
+    <div className="map-renderer-container">
+      <div ref={containerRef} className="map-renderer" />
+      {error && (
+        <div className="error-overlay">
+          <p>Error: {error}</p>
+          <button onClick={() => window.location.reload()}>
+            Retry
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default MapRenderer;
